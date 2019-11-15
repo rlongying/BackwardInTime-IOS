@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>934083190326-c318b745p29su3s51apc8c6bvnkg02bk.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.934083190326-c318b745p29su3s51apc8c6bvnkg02bk</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCrVy-9S3tKvflGVP4bl04YJGdmpHc4VZA</string>
+	<key>GCM_SENDER_ID</key>
+	<string>934083190326</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.ivan.learn.BackwardInTime</string>
+	<key>PROJECT_ID</key>
+	<string>backward-in-time</string>
+	<key>STORAGE_BUCKET</key>
+	<string>backward-in-time.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:934083190326:ios:7e2b7ece9781b9e9d08297</string>
+	<key>DATABASE_URL</key>
+	<string>https://backward-in-time.firebaseio.com</string>
+</dict>
+</plist>

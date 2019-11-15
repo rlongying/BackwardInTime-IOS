@@ -17,10 +17,10 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="iuW-cy-xoD" userLabel="Main Stack">
-                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                                <rect key="frame" x="0.0" y="44" width="414" height="0.0"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="OoP-QM-ljL" userLabel="TimerView">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="233.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
                                         <subviews>
                                             <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" alignment="top" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Hjn-Qq-OkX" userLabel="Inputs Stack">
                                                 <rect key="frame" x="20" y="40" width="374" height="34"/>
@@ -100,26 +100,26 @@
                                         </constraints>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="i97-Ri-lSY" userLabel="ProgressView">
-                                        <rect key="frame" x="0.0" y="233.5" width="414" height="234"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1th-G1-lLY" userLabel="HistoryView">
-                                        <rect key="frame" x="0.0" y="467.5" width="414" height="350.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.0"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                                     </view>
                                 </subviews>
                                 <constraints>
-                                    <constraint firstItem="i97-Ri-lSY" firstAttribute="height" secondItem="iuW-cy-xoD" secondAttribute="height" multiplier="2:7" id="G5D-d2-yx3"/>
-                                    <constraint firstItem="OoP-QM-ljL" firstAttribute="height" secondItem="iuW-cy-xoD" secondAttribute="height" multiplier="2:7" id="OGY-yS-S1h"/>
+                                    <constraint firstItem="i97-Ri-lSY" firstAttribute="height" secondItem="iuW-cy-xoD" secondAttribute="height" multiplier="2:7" id="cTn-NC-fSo"/>
+                                    <constraint firstItem="OoP-QM-ljL" firstAttribute="height" secondItem="iuW-cy-xoD" secondAttribute="height" multiplier="2:7" id="sNo-7w-V44"/>
+                                    <constraint firstItem="1th-G1-lLY" firstAttribute="height" secondItem="iuW-cy-xoD" secondAttribute="height" multiplier="3:7" id="zhM-8a-89c"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
-                            <constraint firstItem="iuW-cy-xoD" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="6up-KR-SbO"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="iuW-cy-xoD" secondAttribute="trailing" id="KOU-e8-ZEq"/>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="iuW-cy-xoD" secondAttribute="bottom" id="Vho-c8-T8q"/>
-                            <constraint firstItem="iuW-cy-xoD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="j9F-Oc-pSq"/>
+                            <constraint firstItem="iuW-cy-xoD" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="QzF-S8-UUS"/>
+                            <constraint firstItem="iuW-cy-xoD" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="ZkG-qs-CYe"/>
+                            <constraint firstAttribute="trailing" secondItem="iuW-cy-xoD" secondAttribute="trailing" id="dx7-2R-goQ"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
