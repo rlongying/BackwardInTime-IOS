@@ -9,11 +9,19 @@
 import Foundation
 import Firebase
 
-class Event {
-    init() {
+class EventModal {
+    // a period of time in seconds
+    var timespan: Int = 0
+    
+    // a const used in formula
+    let constFactor = pow(M_E, 3)
+    
+    init(timespanInSeconds timespan: Int) {
+        self.timespan = timespan
         FirebaseApp.configure()
         
         let db = Firestore.firestore()
+        
         
         db.collection("events").getDocuments { (querySnapshot, err) in
             if let err = err {
@@ -33,5 +41,24 @@ class Event {
                 }
             }
         }
+        
+        print("passed: \(getPassedYears(by: 0.8538))")
     }
+    
+    
+    func getPassedYears(by percent:Double) -> Double {
+        
+       
+        let expo = 20.3444 * pow(percent, 3) + 3
+        
+        let passedYears = pow(M_E, expo) - constFactor
+        
+        return passedYears
+    }
+}
+
+struct Event:Codable {
+    var percentage:Double
+    var date:String
+    var events:[String]
 }

@@ -29,13 +29,13 @@ class ViewController: UIViewController {
     var hours = -1
     var minutes = -1
     var seconds = 0
+    var eventModel:EventModal!
     
     //MARK: - View
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
-        let event = Event()
     }
     
     
@@ -55,6 +55,10 @@ class ViewController: UIViewController {
             minsTextField.text = String(minutes)
             errorLabel.text = "Hours and minutes cannot be both 0"
         }else {
+            
+            // no error, initialize event modal with given time span in seconds
+            let timespan = (hours * 24 + minutes) * 60
+            eventModel = EventModal(timespanInSeconds: timespan)
             
             hourLabel.text = hours < 10 ? String("0\(hours)"):String(hours)
             minsLabel.text = minutes < 10 ? String("0\(minutes)"):String(minutes)
