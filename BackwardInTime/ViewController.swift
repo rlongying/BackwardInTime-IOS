@@ -20,6 +20,8 @@ class ViewController: UIViewController {
     
     //MARK: - Progress UIs
     
+    @IBOutlet weak var progressBar: UIProgressView!
+//    progressBar.transform = progressView.transform.scaledBy(x: 1, y: 9)
     
     //MARK: - History Events UIs
     
@@ -30,6 +32,8 @@ class ViewController: UIViewController {
     var minutes = -1
     var seconds = 0
     var eventModel:EventModal!
+    var hoursValue = 0
+    var minutesValue = 0
     
     //MARK: - View
     override func viewDidLoad() {
@@ -68,10 +72,21 @@ class ViewController: UIViewController {
                 [weak self] (_) in
                 self?.updateTimer()
                 
+                DispatchQueue.main.async{
+                    self?.updateProgress()
+                }
+                
             })
             
         }
         
+    }
+    
+    func updateProgress(){
+        let seconds = Float((hoursValue*60 + minutesValue)*60)
+        let inc = 1.0/seconds
+        
+        progressBar.setProgress(progressBar.progress + inc, animated: true)
     }
     
     
@@ -103,6 +118,9 @@ class ViewController: UIViewController {
         
         hours = hourTextField.text?.toHours() ?? -1
         minutes = minsTextField.text?.toMinutes() ?? -1
+        
+        hoursValue = hours < 0 ? 0 : hours
+        minutesValue = minutes < 0 ? 0 : minutes
         seconds = 0
     }
 }
