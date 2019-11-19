@@ -21,7 +21,7 @@ class EventModal {
     
     init(timespanInSeconds timespan: Int) {
         self.timespan = timespan
-       
+        
         // configure the app only if not had been configured,
         // other it throws exception : "Default app has already been configured"
         if FirebaseApp.app() == nil {
@@ -39,6 +39,10 @@ class EventModal {
                     let data = doc.data()
                     print("\(doc.documentID) => \(doc.data())")
                     print("date: \(data["date"] ?? "no date")")
+                    let timestamp:Timestamp = data["date"] as! Timestamp
+                    let date:Date = timestamp.dateValue()
+                    
+                     print("date value: \(date)")
                     
                     let events = data["events"] as? [String] ?? [""]
                     
@@ -46,21 +50,41 @@ class EventModal {
                         print("event: \(e)")
                     }
                     
+//                    do {
+//                        jsonData = data.data(using:.)
+//                        let event = try JSONDecoder().decode(Event.self, from: data)
+//                        return event
+//                    }catch {
+//                        print(error)
+//                    }
+                    
                 }
             }
         }
         
+        // test cases
+        
         print("passed: \(getPassedYears(by: 0.8538))")
-        let dateComponents = DateComponents(calendar: calendar, year: 1918, month: 1, day: 1)
-        let date = calendar.date(from: dateComponents)
+        var dateComponents = DateComponents(calendar: calendar, year: 1918, month: 1, day: 1)
+        var date = calendar.date(from: dateComponents)
         print("percentage of date: \(getPercentage(of: date!))")
         print("percentage of years ago: \(getPercentage(of: 1012))")
+        
+        print("date to string: \(Helpers.string(of: date!))")
+        
+        dateComponents = DateComponents(calendar: calendar, year: 1899, month: 1, day: 1)
+        date = calendar.date(from: dateComponents)
+        print("date to string < 1900: \(Helpers.string(of: date!))")
+        print("yearsAgo to string: \(Helpers.string(of: 13_760_000_000.0))")
+        print("yearsAgo to string: \(Helpers.string(of: 680_000_000.0))")
+        print("yearsAgo to string: \(Helpers.string(of: 25_000.0))")
+        print("yearsAgo to string: \(Helpers.string(of: 300.0))")
     }
     
     // MARK: - Helper functions to calcuate years and percentage
     func getPassedYears(by percent:Double) -> Double {
         
-       
+        
         let expo = CONSTANT_FACTOR * pow(percent, 3) + 3
         
         let passedYears = exp(expo) - E_POW_3
@@ -74,7 +98,7 @@ class EventModal {
         let timePeriodComponents = calendar.dateComponents([.day], from: date, to: now)
         
         let daysPassed = Double(timePeriodComponents.day!)
-         print("inside dayPassed passed: \(daysPassed)")
+        print("inside dayPassed passed: \(daysPassed)")
         
         return daysPassed / DAYS_A_YEAR
     }
@@ -100,12 +124,20 @@ class EventModal {
     private func ln(_ value: Double) -> Double {
         return log(value) / log(M_E)
     }
+    
 }
 
 // MARK: - Event Struct Definition
 
 struct Event:Codable {
-    var percentage:Double
-    var date:String
+    var percentage:Double = 0
+    var date:Date
     var events:[String]
+    var yearsAgo:Double
+    
+    enum CodingKeys: String, CodingKey {
+        case date
+        case events
+        case yearsAgo = "years"
+    }
 }

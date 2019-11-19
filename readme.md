@@ -14,7 +14,7 @@
   - [ ] **progress bar** starts to update after the **start** button is clicked
 
 - ##### Show History Events
-  - [ ] create a events database on firebase - [Firebase Setup](https://firebase.google.com/docs/ios/setup), [Cloud Storage](https://firebase.google.com/docs/firestore/quickstart)
+  - [x] create a events database on firebase - [Firebase Setup](https://firebase.google.com/docs/ios/setup), [Cloud Storage](https://firebase.google.com/docs/firestore/quickstart)
   - [ ] create a events model which includes methods to retrieve data from firebase, and parse the data to return an event object that can be consumed by swift
   - [ ] show a event when the progress bar reaches the time the event happened
 
