@@ -25,6 +25,11 @@ class ViewController: UIViewController {
     
     //MARK: - History Events UIs
     
+    @IBOutlet weak var twentyLabel: UILabel!
+    @IBOutlet weak var fourtyLabel: UILabel!
+    @IBOutlet weak var sixtyLabel: UILabel!
+    @IBOutlet weak var eightyLabel: UILabel!
+    @IBOutlet weak var hundredLabel: UILabel!
     
     //MARK: - Custom Properties
     var timer:Timer = Timer()
