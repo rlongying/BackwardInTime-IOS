@@ -23,7 +23,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var progressBar: UIProgressView!
     //    progressBar.transform = progressView.transform.scaledBy(x: 1, y: 9)
     
-  
+    
     
     @IBOutlet weak var twentyLabel: UILabel!
     @IBOutlet weak var fourtyLabel: UILabel!
@@ -58,13 +58,18 @@ class ViewController: UIViewController {
             if (error != nil) {
                 print("view did load event error: \(String(describing: error))")
             }
-            
-            self?.events = eventArray
-            if (self?.events.count)! > 0 {
-                self?.events.sort { (e1, e2) -> Bool in
-                    return e1.percentage > e2.percentage
-                }
+          
+            guard let strongSelf = self else {
+                return
             }
+            
+            strongSelf.events = eventArray
+                      if (strongSelf.events.count) > 0 {
+                          strongSelf.events.sort { (e1, e2) -> Bool in
+                              return e1.percentage > e2.percentage
+                          }
+                      }
+          
         }
         
         // update labels
@@ -95,10 +100,14 @@ class ViewController: UIViewController {
             
             timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {
                 [weak self] (_) in
-                self?.updateTimer()
+                
+                guard let strongSelf = self else {
+                               return
+                           }
+                strongSelf.updateTimer()
                 
                 DispatchQueue.main.async{
-                    self?.updateProgress()
+                    strongSelf.updateProgress()
                 }
                 
             })
@@ -113,7 +122,7 @@ class ViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.setLocalizedDateFormatFromTemplate("MMM yyyy")
         twentyLabel.text = formatter.string(from: twentyPercentDate)
- 
+        
         // 40% percent label
         formatter.setLocalizedDateFormatFromTemplate("yyyy")
         let fourtyPercentDate = eventModel.getYearsBy(percentage: 0.4)
@@ -139,34 +148,42 @@ class ViewController: UIViewController {
         let inc = 1.0/seconds
         
         progressBar.setProgress(progressBar.progress + inc, animated: true)
-        displayEvent(at: Double(progressBar.progress))
+        displayEvent(at: Double(progressBar.progress), from: events)
+       
     }
     
     // MARK: - Display events
-    func displayEvent(at percent:Double){
-        if events.count > 0 {
-            
-            for event in events {
-                if event.percentage < percent {
-                    percentLabel.text = String(round(percent * 10_000) / 100)
-                    
-                    if event.yearsAgo == -1 {
-                        dateLabel.text = Helpers.string(of: event.date)
-                      
-                    }else {
-                        dateLabel.text = Helpers.string(of: event.yearsAgo)
-                    }
-                    
-                    var eventsText = ""
-                    for title in event.events {
-                        eventsText += title + "\n"
-                    }
-                    eventsLabel.text = eventsText
-                    
-                    break
+    func displayEvent(at percent:Double, from events:[Event]){
+        var i = 0
+        while(i < events.count){
+            let event = events[i]
+            let roundedPercent = round(event.percentage * 1_000) / 1_000
+            if roundedPercent <= percent {
+                 print("event inside: \(event), percent: \(percent)")
+                percentLabel.text = String(round(event.percentage * 10_000) / 100) + "%"
+
+                if event.yearsAgo == -1 {
+                    let dateString = Helpers.string(of: event.date)
+                    dateLabel.text = dateString
+
+                }else {
+                    dateLabel.text = Helpers.string(of: event.yearsAgo)
                 }
+
+                var eventsText = ""
+             
+                let titles = event.titles
+                for title in titles {
+                    
+                    eventsText += title + "\n"
+                }
+                eventsLabel.text = eventsText
+//
+                break
             }
+           i = i + 1
         }
+        
     }
     
     
@@ -198,6 +215,10 @@ class ViewController: UIViewController {
         
         hours = hourTextField.text?.toHours() ?? -1
         minutes = minsTextField.text?.toMinutes() ?? -1
+        progressBar.progress = 0.0
+        percentLabel.text = ""
+        dateLabel.text = ""
+        eventsLabel.text = ""
         
         hoursValue = hours < 0 ? 0 : hours
         minutesValue = minutes < 0 ? 0 : minutes

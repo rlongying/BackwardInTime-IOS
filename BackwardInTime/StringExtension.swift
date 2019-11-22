@@ -51,21 +51,23 @@ extension String {
 
 class Helpers {
     class func string(of date:Date) -> String {
+        var result = ""
         
         if let year = Calendar.current.dateComponents([.year], from: date).year {
             if year < 1900 {
-                return String(year)
+                result =  String(year)
             }else {
                 let formatter = DateFormatter()
                 formatter.setLocalizedDateFormatFromTemplate("MMM d, yyyy")
-                return formatter.string(from: date)
+                result = formatter.string(from: date)
             }
         }
           
-        return " "
+        return result
     }
     
     class  func string(of yearsAgo:Double) -> String {
+        var resultString = ""
         
         let thousand = 1_000.0
         let million = 1_000_000.0
@@ -73,20 +75,21 @@ class Helpers {
         
         if yearsAgo >= billion {
             let result = yearsAgo / billion
-            return String("\(round(result * 100) / 100) Billion Years Ago")
+            resultString = String("\(round(result * 100) / 100) Billion Years Ago")
         }
         else if yearsAgo >= million {
              let result = yearsAgo / million
-            return String("\(round(result * 100) / 100) Million Years Ago")
+           resultString = String("\(round(result * 100) / 100) Million Years Ago")
         }
         else if yearsAgo >= thousand {
-             let result = yearsAgo / million
-            return String("\(round(result * 100) / 100) Thousand Years Ago")
+             let result = yearsAgo / thousand
+            resultString = String("\(round(result * 100) / 100) Thousand Years Ago")
         }
         else {
-            return String("\(Int(yearsAgo)) Years Ago")
+            resultString = String("\(Int(yearsAgo)) Years Ago")
         }
         
+        return resultString
     }
 
 }

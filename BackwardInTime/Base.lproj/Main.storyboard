@@ -216,26 +216,22 @@
                                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="aqY-3g-YZr" userLabel="History Stack">
                                                 <rect key="frame" x="30" y="0.0" width="354" height="368"/>
                                                 <subviews>
-                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillProportionally" translatesAutoresizingMaskIntoConstraints="NO" id="rIr-6s-t8L" userLabel="Date Stack">
+                                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="rIr-6s-t8L" userLabel="Date Stack">
                                                         <rect key="frame" x="0.0" y="0.0" width="354" height="73.666666666666671"/>
                                                         <subviews>
                                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Iyb-IC-rtE" userLabel="percent">
-                                                                <rect key="frame" x="0.0" y="0.0" width="118" height="73.666666666666671"/>
+                                                                <rect key="frame" x="0.0" y="0.0" width="177" height="73.666666666666671"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
-                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PwV-eE-JSD" userLabel="date">
-                                                                <rect key="frame" x="118" y="0.0" width="236" height="73.666666666666671"/>
+                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="   " lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PwV-eE-JSD" userLabel="date">
+                                                                <rect key="frame" x="177" y="0.0" width="177" height="73.666666666666671"/>
                                                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                                 <nil key="textColor"/>
                                                                 <nil key="highlightedColor"/>
                                                             </label>
                                                         </subviews>
-                                                        <constraints>
-                                                            <constraint firstItem="PwV-eE-JSD" firstAttribute="width" secondItem="rIr-6s-t8L" secondAttribute="width" multiplier="2:3" id="DIi-o0-4bN"/>
-                                                            <constraint firstItem="Iyb-IC-rtE" firstAttribute="width" secondItem="rIr-6s-t8L" secondAttribute="width" multiplier="1:3" id="yyA-Is-v19"/>
-                                                        </constraints>
                                                     </stackView>
                                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="247" text="AROUND THIS TIME:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y4c-PL-xTc" userLabel="title">
                                                         <rect key="frame" x="0.0" y="73.666666666666686" width="354" height="73.666666666666686"/>
@@ -281,7 +277,7 @@
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
                     <connections>
-                        <outlet property="dateLabel" destination="PwV-eE-JSD" id="Xdo-35-0US"/>
+                        <outlet property="dateLabel" destination="PwV-eE-JSD" id="IJh-rj-DwI"/>
                         <outlet property="eightyLabel" destination="TRY-WI-EJ1" id="Kbi-Yn-FR6"/>
                         <outlet property="errorLabel" destination="oFJ-nQ-aeM" id="WK2-u9-zMq"/>
                         <outlet property="eventsLabel" destination="0YV-df-3Iy" id="W5R-s8-BEh"/>
@@ -291,7 +287,7 @@
                         <outlet property="hundredLabel" destination="bOi-Cc-zTb" id="CD2-j9-at0"/>
                         <outlet property="minsLabel" destination="NGN-8Q-eU7" id="AxO-oD-F5U"/>
                         <outlet property="minsTextField" destination="U9J-mo-A93" id="qd7-wR-gDj"/>
-                        <outlet property="percentLabel" destination="Iyb-IC-rtE" id="W0F-Bj-6yS"/>
+                        <outlet property="percentLabel" destination="Iyb-IC-rtE" id="5lY-TB-Dtt"/>
                         <outlet property="progressBar" destination="zLZ-Fy-5as" id="XMI-c7-fO6"/>
                         <outlet property="secondsLabel" destination="jOE-Gw-SMl" id="Sc0-Dp-198"/>
                         <outlet property="sixtyLabel" destination="9tY-ok-2UG" id="AC5-Fc-xEi"/>

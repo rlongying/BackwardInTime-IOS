@@ -80,7 +80,7 @@ class EventModal {
                 for e in titles {
                     print("event: \(e)")
                 }
-                var event = Event(date: date, events: titles, yearsAgo: years)
+                var event = Event(date: date, titles: titles, yearsAgo: years)
                 
                 guard let strongSelf = self else{
                     return
@@ -159,15 +159,9 @@ class EventModal {
 
 // MARK: - Event Struct Definition
 
-struct Event:Codable {
+struct Event{
     var percentage:Double = 0
     var date:Date
-    var events:[String]
+    var titles:[String]
     var yearsAgo:Double
-    
-    enum CodingKeys: String, CodingKey {
-        case date
-        case events
-        case yearsAgo = "years"
-    }
 }
