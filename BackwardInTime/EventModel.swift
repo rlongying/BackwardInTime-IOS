@@ -10,8 +10,6 @@ import Foundation
 import Firebase
 
 class EventModal {
-    // a period of time in seconds
-    var timespan: Int = 0
     
     // a const used in formula
     let E_POW_3 = pow(M_E, 3)
@@ -19,67 +17,89 @@ class EventModal {
     let DAYS_A_YEAR = 365.212499
     let CONSTANT_FACTOR = 20.3444
     
-    init(timespanInSeconds timespan: Int) {
-        self.timespan = timespan
-        
+    init() {
+
         // configure the app only if not had been configured,
         // other it throws exception : "Default app has already been configured"
         if FirebaseApp.app() == nil {
             FirebaseApp.configure()
         }
+
+        // test cases
+//
+//        print("passed: \(getPassedYears(by: 0.8538))")
+//        var dateComponents = DateComponents(calendar: calendar, year: 1918, month: 1, day: 1)
+//        var date = calendar.date(from: dateComponents)
+//        print("percentage of date: \(getPercentage(of: date!))")
+//        print("percentage of years ago: \(getPercentage(of: 1012))")
+//
+//        print("date to string: \(Helpers.string(of: date!))")
+//
+//        dateComponents = DateComponents(calendar: calendar, year: 1899, month: 1, day: 1)
+//        date = calendar.date(from: dateComponents)
+//        print("date to string < 1900: \(Helpers.string(of: date!))")
+//        print("yearsAgo to string: \(Helpers.string(of: 13_760_000_000.0))")
+//        print("yearsAgo to string: \(Helpers.string(of: 680_000_000.0))")
+//        print("yearsAgo to string: \(Helpers.string(of: 25_000.0))")
+//        print("yearsAgo to string: \(Helpers.string(of: 300.0))")
+    }
+    
+    // MARK: - Firebase Operations
+    func getEvents(completion: @escaping ([Event], Error?) -> Void) {
+        
+        var events:[Event] = []
         
         let db = Firestore.firestore()
-        
-        
-        db.collection("events").getDocuments { (querySnapshot, err) in
+        db.collection("events").getDocuments {
+            [weak self](querySnapshot, err) in
             if let err = err {
                 print("Error getting documents: \(err)")
-            }else {
-                for doc in querySnapshot!.documents {
-                    let data = doc.data()
-                    print("\(doc.documentID) => \(doc.data())")
-                    print("date: \(data["date"] ?? "no date")")
-                    let timestamp:Timestamp = data["date"] as! Timestamp
-                    let date:Date = timestamp.dateValue()
-                    
-                     print("date value: \(date)")
-                    
-                    let events = data["events"] as? [String] ?? [""]
-                    
-                    for e in events {
-                        print("event: \(e)")
-                    }
-                    
-//                    do {
-//                        jsonData = data.data(using:.)
-//                        let event = try JSONDecoder().decode(Event.self, from: data)
-//                        return event
-//                    }catch {
-//                        print(error)
-//                    }
-                    
-                }
+                completion(events, err)
+                return
             }
+            
+            for doc in querySnapshot!.documents {
+                
+                let data = doc.data()
+                print("\(doc.documentID) => \(doc.data())")
+                print("date: \(data["date"] ?? "no date")")
+                
+                // get date and conver to date type
+                let timestamp:Timestamp = data["date"] as! Timestamp
+                let date:Date = timestamp.dateValue()
+                
+                print("date value: \(date)")
+                
+                // get events
+                let titles = data["events"] as? [String] ?? [""]
+                
+                // get years
+                let years = data["years"] as? Double ?? -1
+                print("years: \(years)")
+                
+                for e in titles {
+                    print("event: \(e)")
+                }
+                var event = Event(date: date, events: titles, yearsAgo: years)
+                
+                guard let strongSelf = self else{
+                    return
+                }
+                
+                if event.yearsAgo == -1 {
+                    // use date
+                    event.percentage = strongSelf.getPercentage(of: event.date)
+                }else {
+                    // use years
+                    event.percentage = strongSelf.getPercentage(of: event.yearsAgo)
+                }
+                
+                events.append(event)
+            }
+            completion(events, nil)
         }
-        
-        // test cases
-        
-        print("passed: \(getPassedYears(by: 0.8538))")
-        var dateComponents = DateComponents(calendar: calendar, year: 1918, month: 1, day: 1)
-        var date = calendar.date(from: dateComponents)
-        print("percentage of date: \(getPercentage(of: date!))")
-        print("percentage of years ago: \(getPercentage(of: 1012))")
-        
-        print("date to string: \(Helpers.string(of: date!))")
-        
-        dateComponents = DateComponents(calendar: calendar, year: 1899, month: 1, day: 1)
-        date = calendar.date(from: dateComponents)
-        print("date to string < 1900: \(Helpers.string(of: date!))")
-        print("yearsAgo to string: \(Helpers.string(of: 13_760_000_000.0))")
-        print("yearsAgo to string: \(Helpers.string(of: 680_000_000.0))")
-        print("yearsAgo to string: \(Helpers.string(of: 25_000.0))")
-        print("yearsAgo to string: \(Helpers.string(of: 300.0))")
     }
+    
     
     // MARK: - Helper functions to calcuate years and percentage
     func getPassedYears(by percent:Double) -> Double {
@@ -90,6 +110,16 @@ class EventModal {
         let passedYears = exp(expo) - E_POW_3
         
         return passedYears
+    }
+    
+    func getYearsBy(percentage:Double) -> Date {
+        let passedYears = getPassedYears(by: percentage)
+        
+        let now = Date()
+        
+        let dateYearsAgo = calendar.date(byAdding: .year, value: 0 - Int(passedYears), to: now)
+        
+        return dateYearsAgo!
     }
     
     func getPassedYears(by date:Date) -> Double {

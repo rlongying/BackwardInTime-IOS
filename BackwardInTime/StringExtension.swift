@@ -66,23 +66,28 @@ class Helpers {
     }
     
     class  func string(of yearsAgo:Double) -> String {
+        
         let thousand = 1_000.0
         let million = 1_000_000.0
         let billion = 1_000_000_000.0
         
         if yearsAgo >= billion {
-            return String("\(yearsAgo / billion) Billion Years Ago")
+            let result = yearsAgo / billion
+            return String("\(round(result * 100) / 100) Billion Years Ago")
         }
         else if yearsAgo >= million {
-            return String("\(yearsAgo / million) Million Years Ago")
+             let result = yearsAgo / million
+            return String("\(round(result * 100) / 100) Million Years Ago")
         }
         else if yearsAgo >= thousand {
-            return String("\(yearsAgo / thousand) Thousand Years Ago")
+             let result = yearsAgo / million
+            return String("\(round(result * 100) / 100) Thousand Years Ago")
         }
         else {
             return String("\(Int(yearsAgo)) Years Ago")
         }
         
     }
+
 }
 

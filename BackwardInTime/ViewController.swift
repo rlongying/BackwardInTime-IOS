@@ -21,15 +21,21 @@ class ViewController: UIViewController {
     //MARK: - Progress UIs
     
     @IBOutlet weak var progressBar: UIProgressView!
-//    progressBar.transform = progressView.transform.scaledBy(x: 1, y: 9)
+    //    progressBar.transform = progressView.transform.scaledBy(x: 1, y: 9)
     
-    //MARK: - History Events UIs
+  
     
     @IBOutlet weak var twentyLabel: UILabel!
     @IBOutlet weak var fourtyLabel: UILabel!
     @IBOutlet weak var sixtyLabel: UILabel!
     @IBOutlet weak var eightyLabel: UILabel!
     @IBOutlet weak var hundredLabel: UILabel!
+    
+    //MARK: - History Events UIs
+    @IBOutlet weak var percentLabel: UILabel!
+    @IBOutlet weak var dateLabel: UILabel!
+    @IBOutlet weak var eventsLabel: UILabel!
+    
     
     //MARK: - Custom Properties
     var timer:Timer = Timer()
@@ -39,12 +45,30 @@ class ViewController: UIViewController {
     var eventModel:EventModal!
     var hoursValue = 0
     var minutesValue = 0
+    var events:[Event]!
     
     //MARK: - View
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         
+        eventModel = EventModal()
+        eventModel.getEvents {
+            [weak self](eventArray, error) in
+            if (error != nil) {
+                print("view did load event error: \(String(describing: error))")
+            }
+            
+            self?.events = eventArray
+            if (self?.events.count)! > 0 {
+                self?.events.sort { (e1, e2) -> Bool in
+                    return e1.percentage > e2.percentage
+                }
+            }
+        }
+        
+        // update labels
+        updateLabels()
     }
     
     
@@ -65,10 +89,6 @@ class ViewController: UIViewController {
             errorLabel.text = "Hours and minutes cannot be both 0"
         }else {
             
-            // no error, initialize event modal with given time span in seconds
-            let timespan = (hours * 24 + minutes) * 60
-            eventModel = EventModal(timespanInSeconds: timespan)
-            
             hourLabel.text = hours < 10 ? String("0\(hours)"):String(hours)
             minsLabel.text = minutes < 10 ? String("0\(minutes)"):String(minutes)
             secondsLabel.text = "00"
@@ -87,11 +107,66 @@ class ViewController: UIViewController {
         
     }
     
+    func updateLabels() {
+        // 20% percent label
+        let twentyPercentDate = eventModel.getYearsBy(percentage: 0.2)
+        let formatter = DateFormatter()
+        formatter.setLocalizedDateFormatFromTemplate("MMM yyyy")
+        twentyLabel.text = formatter.string(from: twentyPercentDate)
+ 
+        // 40% percent label
+        formatter.setLocalizedDateFormatFromTemplate("yyyy")
+        let fourtyPercentDate = eventModel.getYearsBy(percentage: 0.4)
+        fourtyLabel.text = formatter.string(from: fourtyPercentDate)
+        
+        // 60% percent label
+        let sixtyPercentDate = eventModel.getYearsBy(percentage: 0.6)
+        sixtyLabel.text = formatter.string(from: sixtyPercentDate)
+        
+        // 80% percent label
+        let eightyPercentDate = eventModel.getPassedYears(by: 0.8)
+        eightyLabel.text = Helpers.string(of: eightyPercentDate)
+        
+        // 100% percent label
+        let hundredPercentDate = eventModel.getPassedYears(by: 1.0)
+        hundredLabel.text = Helpers.string(of: hundredPercentDate)
+    }
+    
+    
+    // MARK: - progress view
     func updateProgress(){
         let seconds = Float((hoursValue*60 + minutesValue)*60)
         let inc = 1.0/seconds
         
         progressBar.setProgress(progressBar.progress + inc, animated: true)
+        displayEvent(at: Double(progressBar.progress))
+    }
+    
+    // MARK: - Display events
+    func displayEvent(at percent:Double){
+        if events.count > 0 {
+            
+            for event in events {
+                if event.percentage < percent {
+                    percentLabel.text = String(round(percent * 10_000) / 100)
+                    
+                    if event.yearsAgo == -1 {
+                        dateLabel.text = Helpers.string(of: event.date)
+                      
+                    }else {
+                        dateLabel.text = Helpers.string(of: event.yearsAgo)
+                    }
+                    
+                    var eventsText = ""
+                    for title in event.events {
+                        eventsText += title + "\n"
+                    }
+                    eventsLabel.text = eventsText
+                    
+                    break
+                }
+            }
+        }
     }
     
     
